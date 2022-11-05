@@ -21,7 +21,22 @@ const useFetch = (url) => {
       });
   }, [url]);
 
-  return { data, isLoading, error };
+  const refetch = () => {
+    setIsLoading(true);
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  return { data, isLoading, error, refetch };
 };
 
 export default useFetch;
